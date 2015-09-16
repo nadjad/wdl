@@ -1,0 +1,60 @@
+O:Op1
+operators\\oo1.jar
+a:Integer b:List<Tuple(String,Integer,Float)>
+c:Integer
+O:Op2
+operators\\oo2.jar
+in1:Integer in2:List<String> in3:Integer
+out1:Boolean out2:Boolean
+O:SMLR
+operators\\sM.jar
+a:Integer b:Integer
+out:Boolean
+O:SUM
+operators\\sum.jar
+a:Integer b:Integer
+s:Integer
+O:DIFF
+operators\\diff.jar
+a:Integer b:Integer
+d:Integer
+O:MULT
+operators\\mult.jar
+a:Integer b:Integer
+f:Integer
+O:DIV
+operators\\div.jar
+a:Integer b:Integer
+d:Integer
+O:opp1
+operators\\op1.jar
+a:String
+b:String
+O:opp2
+operators\\op2.jar
+a:String
+b:String
+O:opp3
+operators\\op3.jar
+a:String b:String
+c:String
+O:opp4
+operators\\op4.jar
+a:String
+b:String
+O:NIR
+operators\\nir.jar
+a:String
+b:String
+O:RED
+operators\\red.jar
+a:String
+b:String
+O:SQR
+operators\\red.jar
+a:String
+b:String
+O:SQRT
+operators\\red.jar
+a:String
+b:String

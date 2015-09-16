@@ -1,0 +1,16 @@
+flow: flow1
+  input: a,b:Integer
+  output: rez :Integer
+	
+       [ a, b ] SUM : o1 [ sum ]
+       [ a, b ] DIFF : o2 [ diff ]
+       [ a, b ] MULT : o3 [ mul ]
+       [ a, b ] DIV : o4 [ div ]
+
+       [ sum, diff ] SUM : o5 [ sum1 ]
+       [ mul, div ] SUM : o6 [ sum2 ]
+       [ sum1, sum2 ] SUM : o7 [ rez ]
+end
+simulation: s1
+     ["afile","bfile"] flow1: ff [ res ]
+end

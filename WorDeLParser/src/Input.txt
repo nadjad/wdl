@@ -1,0 +1,175 @@
+flow: flow1
+  input: a,b:Integer
+  output: rez :Integer
+	
+       [ a, b ] SUM : o1 [ sum ]
+       [ a, b ] DIFF : o2 [ diff ]
+       [ a, b ] MULT : o3 [ mul ]
+       [ a, b ] DIV : o4 [ div ]
+
+       [ sum, diff ] SUM : o5 [ sum1 ]
+       [ mul, div ] SUM : o6 [ sum2 ]
+       [ sum1, sum2 ] SUM : o7 [ rez ]
+end
+simulation: s1
+     ["afile","bfile"] flow1: ff [ res ]
+end
+/*flow: ndvi
+	input: img :File
+    output: rez :File    
+       [ img ] NIR:nir [ nirVal ]
+       [ img ] RED:red [ redVal ]
+              
+       [ nirVal, redVal ] SUM:s1 [ sum ]      
+       [ nirVal, redVal ] DIFF:d1 [ diff ]
+
+       [ diff, sum ] DIV:dv [ rez ]
+end
+*/
+/*flow: msavi2
+  input: img :File, one,two,eight,half:Float
+  output: rez :File
+	
+       [img]NIR:nir[nirVal]
+       [nirVal,two]MULT:m1[fact1]
+       [fact1,one]SUM:s1[sum1]
+       [sum1]SQR:sq[sqrSum]
+       
+       [img]RED:red[redVal]
+       [nirVal,redVal]DIFF:d1[diff1]
+       [diff1,eight]MULT:m2[fact2]
+       
+       [sqrSum,fact2]DIFF:d2[diff2]
+       [diff2]SQRT:sqrt[sqRoot]
+       
+       [sum1,sqRoot]DIFF:d3[doubleRez]
+       [doubleRez,two]DIV:dv[rez]
+end
+*/
+
+
+
+/*
+<entity id="flow1">
+	<entity id="op1" class="SUM">
+		<port id="a" type="in" data="Integer"/>
+		<port id="b" type="in" data="Integer"/>
+		<port id="s" type="out" data="Integer"/>
+	</entity>
+
+	<port id="n1" type="in"/>
+	<port id="n2" type="in"/>
+	<port id="rez" type="in"/>
+
+	<relation id="n1a" in="n1" out="a"/>
+	<relation id="n2b" in="n2" out="b"/>
+	<relation id="sRez" in="s" out="rez"/>
+</entity>
+*/
+
+
+/*[sir1:s1, sir2:s2]foreach(10)[rez:r1, rez2:r2]
+	[s1,s2]op1:o1[r1]
+    [s1,s2]op1:o2[r1]
+end*/
+/*
+flow: flow1
+  input: a,b:Integer
+  output: rez :Integer
+	
+       [ a, b ] SUM : o0 [ sum ]
+       [ a, b ] DIFF : o1 [ diff ]
+       [ a, b ] MULT : o2 [ mul ]
+       [ a, b ] DIV : o3 [ div ]
+
+       [ sum, diff ] SUM : o4 [ sum1 ]
+       [ mul, div ] SUM : o5 [ sum2 ]
+       [ sum1, sum2 ] SUM : o6 [ rez ]
+end
+
+
+simulation: s1
+     ["afile","bfile"] flow1: ff [ res ]
+end*/
+/*[list1, list2] for-each do
+
+flow: flow1
+
+  input: a , b : Integer
+
+  output: sum,diff : Integer
+	[a,b] switch (a) 
+	0: [a1,b1]
+	1: [a2,b2]
+[a1,b1 ] SUM:s [sum]
+
+[a2,b2 ] DIFF:d [diff]
+end*/
+/*flow: flow1
+
+  input: in_file : String
+
+  output: out_file : String
+	
+    [ in_file ] opp1:o1 [ trans1 ]
+    [  trans1 ] opp2:o2 [  trans2 ]
+    [  trans1 ] opp4:o3 [  trans3 ]
+[  trans2,  trans3 ] opp3:o4 [ out_file ]
+
+
+end
+
+
+simulation: s1
+     ["ii1"] flow1: ff [ result1, result2 ]
+end*/
+
+/*flow: flow1
+
+  input: in_file : String
+
+  output: out1 , out2 : String
+	
+    [ in_file ] opp1:o1 [ transit1 ]
+    [ transit1 ] opp2:o2 [ out1 ]
+    [ transit1 ] opp2:o3 [ out2 ]
+
+end
+
+
+simulation: s1
+     ["test_string"] flow1: ff [ result1, result2 ]
+end*/
+/*flow: flow1
+
+  input: a : String
+
+  output: o : String
+	
+    [ a ] opp1:o1 [b ]
+    [ b ] opp2:o2 [ o ]
+
+end
+
+
+simulation: ss1
+	["asdf"] flow1:ff [result]
+	end*/
+/*flow: flow1
+
+  input: a , k : Integer, 
+             s : String
+
+  output: f , kl : Integer
+	
+    [ a ,a ]  Op1:op [ o ]
+    
+    
+	[o] switch (s) 
+	0: [i1]
+	1: [i2]
+	2: [i3]
+
+
+
+end*/

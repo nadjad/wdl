@@ -1,0 +1,71 @@
+/****************************************************  grammar g1 *******************************************/
+/* <type> var declarations
+*/
+
+// Define the grammar
+grammar First;
+
+options {
+	language=Java;
+}
+
+@header {
+	package gen;
+	import datastructure.*;
+}
+
+/*************************** define simple tokens ****************************************************/
+NEWLINE : '\n' ;
+//SPACE : ' ' ;
+OPENPARAM : '[' ;
+CLOSEPARAM : ']' ;
+COMMA : ',' ;
+COLON : ':' ;
+FLOW : 'flow' ;
+ENDFLOW : 'end' ;
+/*INT_TYPE : 'Integer' ;
+REAL_TYPE : 'Real' ;
+BOOL_TYPE: 'Boolean' ;
+STRING_TYPE: 'String' ;*/
+
+/************************ define variable names ******************************************************/
+//NAME : [ a-z | A-Z | 0-9 ]+ ;              // any alphanumeric sequence defining a name
+//NAME : [ a-z | A-Z ] [ a-z | A-Z | 0-9 ]+ ; // one lower or uppercase followed by at least one alphanumeric characters
+NAME : [ a-z | A-Z ] [ a-z | A-Z | 0-9 ]* ; // one lower or uppercase followed by zero or more alphanumeric characters
+INTEGER : [0-9]+ ;                          // one or more digits
+
+/**************************** skip characters ********************************************************/
+WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
+WSS : [' ' | '\t' | '\r' | '\f']+ ->skip;//{$channel=HIDDEN;}; // ignore space, tabs, return, newline sequences
+//' '+ ->skip {$channel=HIDDEN;}; //{' '+ | '\r'+ | '\n'+ | '\t'+} -> skip; // skip any number of space characters
+
+COMMENT: '//' .*? ('\n' | '\r')+ -> skip;   // line comment defined as anything between double-slash and newline char
+MULTICOMMENT: '/*' .*? '*/' -> skip;        // multiple line comment - skip anything between the '/*' token
+
+/*********************************** define parser rules *********************************************/
+//list : NAME COMMA list | NAME ;
+name_list : NAME (COMMA NAME)* ;   // ALTERNATIVE - identical with the one above
+
+tip :  'Integer' | 'String' | 'Real' | 'Boolean' ;
+complex_type: tip | 'List' '<' complex_type '>' | 'Tuple' '(' complex_type (',' complex_type)* ')' ;
+
+var_declaration : complex_type  NAME ;
+
+parameters : var_declaration (',' var_declaration)* ;
+
+operation
+	: OPENPARAM name_list CLOSEPARAM NAME OPENPARAM name_list CLOSEPARAM ; 
+	 
+operation_list : operation+ ;
+
+flow 
+	: FLOW COLON NAME
+	'input:' parameters ';'
+	'output:' parameters ';'
+	operation_list 
+	ENDFLOW ;
+	  
+flow_list : flow+ ; // one or more flows
+
+content: flow_list EOF ;   // absolute top rule
+/****************************************************  grammar g1 *******************************************/

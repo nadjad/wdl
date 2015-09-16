@@ -1,0 +1,68 @@
+<operators>
+    <operator name="Op1">       
+	    <inputs>
+	        <input name="a" type="Integer"></input>
+	        <input name="b" type="Tuple">
+	               <subtypes>
+	                   <subtype name="String"></subtype>
+	                   <subtype name="Integer"></subtype>
+	                   <subtype name="Float"></subtype>
+	               </subtypes>	               
+	        </input> 
+	    </inputs>
+	    
+	    <outputs>
+	        <output name="c" type="Integer"></output>
+	    </outputs>  
+	</operator>
+	<operator name="Op2">       
+	    <inputs>
+	        <input name="in1" type="Integer"></input>
+	        <input name="in2" type="List" subtype="Integer"></input> 
+	    </inputs>
+	    
+	    <outputs>
+	        <output name="out1" type="Boolean"></output>
+	        <output name="out2" type="Boolean"></output>
+	    </outputs>  
+	</operator>
+	<operator name="SUM">       
+	    <inputs>
+	        <input name="a" type="Integer"></input>
+	        <input name="b" type="Integer"></input>
+	    </inputs>
+	    
+	    <outputs>
+	        <output name="s" type="Integer"></output>
+	    </outputs>  
+	</operator>
+	<operator name="DIFF">       
+	    <inputs>
+	        <input name="a" type="Integer"></input>
+	        <input name="b" type="Integer"></input>
+	    </inputs>
+	    
+	    <outputs>
+	        <output name="d" type="Integer"></output>
+	    </outputs>  
+	</operator>
+	
+	<operator name="opp1">       
+	    <inputs>
+	        <input name="a" type="String"></input>
+	    </inputs>	    
+	    <outputs>
+	        <output name="b" type="String"></output>
+	    </outputs>  
+	</operator>
+	
+	<operator name="opp1">       
+	    <inputs>
+	        <input name="a" type="String"></input>
+	    </inputs>
+	    <outputs>
+	        <output name="b" type="String"></output>
+	    </outputs>  
+	</operator>
+	
+</operators>

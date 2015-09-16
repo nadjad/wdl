@@ -1,0 +1,75 @@
+	
+flow: flow12
+
+  input: in_val1, in_val2 : Integer
+
+  output: result : Integer
+	
+    [ in_val1, in_val2 ] SUM:o1 [ sum ]
+    [ in_val1, in_val2 ] DIFF:o2 [ dif ]
+    [ sum, dif ] SUM:o3 [ result ]
+
+end
+
+flow: flow1
+  input: a , b : Integer
+  output: res : Integer
+  
+  [ a, b ] SMLR:o1 [ cond ]
+  
+  [ a, b ] switch (cond) 
+		   true: [ a1 , b1 ]
+	       false: [ a2 , b2 ]
+	       
+  [ a1, b1 ] SUM:o2 [ s ]
+  [ a2, b2 ] DIFF:o3 [ d ]
+
+  join (a) [res] 
+  true: [ sum ]
+  false: [ dif ]
+
+end
+
+flow: flow1
+  input: a,k:Integer, 
+             s:String,
+             l:List<Tuple(List<Integer>,String)>,
+             d:List<List<Integer>>
+  output: f,kl:Integer
+	
+    [a,l]  Op1:op1 [n]
+    
+    [s,k,n] Op2:op2 [f,m]
+
+    [t,m,m] Op2:op3 [kl]
+    [t,m,m] Op2:op4 [kll]
+    [t,m,kll] Op2:op5 [kll]
+    [t,m,kll] Op2:op6 [kl]
+    [t,m,kll] Op2:op7 [kl]
+    [t,m,kll] Op2:op8 [kl]
+    [t,m,kll] Op2:op9 [kl]
+end
+
+
+
+flow: flow1
+  input: a,k:Integer, 
+             s:String,
+             l:List<Tuple(List<Integer>,String)>,
+             d:List<List<Integer>>
+  output: f,kl:Integer
+	
+    [ a , l ]  Op1:op1 [ n ]
+    
+    [ s , k , n ] Op2:op2 [ f , m ]
+        
+  /* join(ffff) [u,i] 
+	0: [u,m]
+	1: [i,m]
+	
+	 [u,i] switch     (ffff) 
+	0: [u,m]
+	1: [i,m]
+*/
+  /*  [ t , m , m ] Op2:op3 [ kl ]*/
+end

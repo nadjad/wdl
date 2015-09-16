@@ -1,0 +1,279 @@
+package representation;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class Node implements Serializable {
+
+	protected String id;
+	protected Operator operatorType;
+	protected List<Port> inPorts;
+	protected List<Port> outPorts;
+	protected Map<String, Connection> inConnections;
+	protected Map<String, Connection> outConnections;
+
+	public Node(String id, Operator operatorType,
+			Map<String, Connection> inConnections,
+			Map<String, Connection> outConnections) {
+		this(id, operatorType);
+		if (inConnections != null)
+			this.inConnections = inConnections;
+		if (outConnections != null)
+			this.outConnections = outConnections;
+	}
+
+	public Node(String id, Operator operatorType) {
+		super();
+		this.id = id;
+		if (operatorType != null) {
+			this.operatorType = operatorType;
+			this.inPorts = this.operatorType.getInputs();
+			this.outPorts = this.operatorType.getOutputs();
+		} else {
+			this.inPorts = new ArrayList<Port>();
+			this.outPorts = new ArrayList<Port>();
+		}
+		this.inConnections = new HashMap<String, Connection>();
+		this.outConnections = new HashMap<String, Connection>();
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public Operator getOperatorType() {
+		return operatorType;
+	}
+
+	public List<Port> getInPorts() {
+		return inPorts;
+	}
+
+	public List<Port> getOutPorts() {
+		return outPorts;
+	}
+
+	public Map<String, Connection> getInConnections() {
+		return inConnections;
+	}
+
+	public Map<String, Connection> getOutConnections() {
+		return outConnections;
+	}
+
+	// public void addInConnections(Map<String, Connection> inConnections) {
+	// Set<String> keys = inConnections.keySet();
+	// for (String key : keys)
+	// this.inConnections.put(key, inConnections.get(key));
+	// }
+
+	public void addOutConnections(Map<String, Connection> outConnections) {
+		Set<String> keys = outConnections.keySet();
+		for (String key : keys)
+			this.outConnections.put(key, outConnections.get(key));
+	}
+
+	public void addInConnection(Connection connection) {
+		List<ConnectionEnd> destinations = connection.getDestinations();
+		for(ConnectionEnd ce:destinations)
+		{
+			if(ce.getNodeId()==this.id && ce.getNodePortId())
+		}
+		this.inConnections.put(connection.getConnectionId(), connection);
+	}
+
+	public void addOutConnection(Connection connection) {
+		this.outConnections.put(connection.getConnectionId(), connection);
+	}
+
+	public Connection getConnection(String connectionName) {
+		Connection connection = this.inConnections.get(connectionName);
+		if (connection == null)
+			connection = this.outConnections.get(connectionName);
+		return connection;
+	}
+
+	public Connection getInConnection(String identifier) {
+		return this.inConnections.get(identifier);
+	}
+
+	public Connection getOutConnection(String identifier) {
+		return this.outConnections.get(identifier);
+	}
+
+	public int getNumberOfInputPorts() {
+		return this.inPorts.size();
+	}
+
+	public int getNumberOfOutputPorts() {
+		return this.outPorts.size();
+	}
+
+	public void instantiate(List<String> inList, List<String> outList) {
+		int i = 0;
+		for (String in : inList) {
+			Connection conn = this.inConnections.get(in);
+			if (conn == null) {
+				this.inConnections.put(in, new Connection(in, null,
+						createConnEndforPort(i, true)));
+			} else {
+				conn.addDestination(createConnEndforPort(i, true));
+			}
+			i++;
+		}
+
+		i = 0;
+		for (String out : outList) {
+			this.outConnections.put(out, new Connection(out,
+					createConnEndforPort(i, false)));
+			i++;
+		}
+	}
+
+	private ConnectionEnd createConnEndforPort(int number, boolean in) {
+		ConnectionEnd connEnd;
+		if (in) {
+			connEnd = new ConnectionEnd(this.id, this.inPorts.get(number)
+					.getName());
+		} else {
+			connEnd = new ConnectionEnd(this.id, this.outPorts.get(number)
+					.getName());
+		}
+		return connEnd;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((operatorType == null) ? 0 : operatorType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Node other = (Node) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (operatorType == null) {
+			if (other.operatorType != null)
+				return false;
+		} else if (!operatorType.equals(other.operatorType))
+			return false;
+		return true;
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Operator operator=operators.get($name.text.trim());
+		 	Map<String, Connection> co=new HashMap<String,Connection>();
+		 	if(operator!=null){
+		 		InstantiatedOperator io=new InstantiatedOperator(operator,$id.text);
+		 		/*  deal with the input parameters */
+		 		int i=0;
+		 		for(String s:$in.list){
+			 		s=s.trim();
+		 			Connection toPort;
+		 			Port p=inputPorts.get(s);		 					
+		 			/*if the port name is identified within the input ports of the flow*/
+		 			if(p!=null){
+		 				/* see if a connection to the input port has been allready done*/
+		 				toPort=connections.get(s);
+		 				// search in the uncommitted connections too
+		 				if(toPort==null)
+		 					toPort=co.get(s);
+		 				
+		 				/*if non-existent, create a new connection*/
+		 				if(toPort==null){
+		 					toPort=new Connection(s,null,s,io,operator.getInputPort(i).getName());	 					
+		 				}else{		 						 				
+		 					/* if connection allready existend, simply add a new destination*/
+		 					toPort.addDestination(io,operator.getInputPort(i).getName());
+		 				}	 					
+		 			}else{
+		 				//System.out.println("avem un input care nu si-a gasit port in inputuri:"+s);
+		 				/* if the parameter does not correspond to an input port, search for a connection to another operator*/
+		 				toPort=connections.get(s);
+		 				if(toPort==null)
+		 					toPort=co.get(s);
+		 				/* if non-existent, create a new "hanging" connection with no origin*/
+		 				if(toPort==null){
+		 					toPort=new Connection(s);
+		 				}else{		
+		 					toPort.addDestination(io,operator.getInputPort(i).getName());
+		 				}		 				
+		 			}
+		 			co.put(s,toPort);
+		 			i++;
+		 		}
+		 		/* deal with the output parameters*/
+		 		i=0;
+		 		for(String s:$out.list){
+					s=s.trim();
+		 			Connection toPort;
+		 			/* test to see if the parameter matches an output port name */
+		 			Port p=outputPorts.get(s);	 			
+		 			if(p!=null){		 			
+		 				/* check if there are any connections on this output port */
+			 			toPort=connections.get(s);
+			 			/* if there are none, we can connect */
+		 				if(toPort==null){
+//		 				 System.out.println(">>>>>>>>>>>>>"+s+":"+operator.getOutputPort(i).getName());	
+		 					toPort=new Connection(s,io,operator.getOutputPort(i).getName(),null,s);	 					
+		 				}else{
+		 					/* error */
+		 				}
+		 			}else{
+		 				// if p does not match any output port, we create a connection originating in the 
+		 				// operator port which is left hanging
+		 				toPort=new Connection(s,io,operator.getOutputPort(i).getName(),null,null);		 				
+		 			}
+		 			co.put(s,toPort);
+		 			i++;
+		 		}
+		 		iops.put(io.getIdentifier(),io);
+		 		$op=new Operation(io,co); 		
+		 	}
